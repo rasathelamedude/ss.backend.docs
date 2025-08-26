@@ -15,7 +15,12 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["name", "phone", "password", "dateOfBirth"],
+                "required": [
+                  "name",
+                  "phone",
+                  "password",
+                  "dateOfBirth"
+                ],
                 "properties": {
                   "name": {
                     "type": "string",
@@ -61,7 +66,10 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["phone", "password"],
+                "required": [
+                  "phone",
+                  "password"
+                ],
                 "properties": {
                   "phone": {
                     "type": "string",

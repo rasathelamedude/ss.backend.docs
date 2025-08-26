@@ -101,51 +101,6 @@
           }
         }
       }
-    },
-    "/logout": {
-      "post": {
-        "summary": "Log out a user",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "phone",
-                  "password"
-                ],
-                "properties": {
-                  "phone": {
-                    "type": "string",
-                    "description": "Phone number must include Iraqi country code (+964)",
-                    "pattern": "^\\+9647[0-9]{9}$",
-                    "example": "+9647701234567"
-                  },
-                  "password": {
-                    "type": "string",
-                    "format": "password"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "User logged in successfully"
-          },
-          "401": {
-            "description": "Invalid credentials"
-          },
-          "404": {
-            "description": "User not found"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
     }
   },
   "components": {},

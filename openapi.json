@@ -6,7 +6,7 @@
     "description": "Auto-generated API documentation"
   },
   "paths": {
-    "/signup": {
+    "/api/auth/signup": {
       "post": {
         "summary": "Create a new user account",
         "requestBody": {
@@ -35,6 +35,11 @@
                   "password": {
                     "type": "string",
                     "format": "password"
+                  },
+                  "dateOfBirth": {
+                    "type": "Date",
+                    "description": "The date of birth of the user",
+                    "example": "2000/01/27"
                   }
                 }
               }
@@ -57,7 +62,7 @@
         }
       }
     },
-    "/login": {
+    "/api/auth/login": {
       "post": {
         "summary": "Log in a user",
         "requestBody": {

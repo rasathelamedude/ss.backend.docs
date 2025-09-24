@@ -5,6 +5,16 @@
     "version": "1.0.0",
     "description": "Auto-generated API documentation"
   },
+  "servers": [
+    {
+      "url": "https://solution-squad-backend-development.onrender.com/",
+      "description": "Backend Staging Server"
+    },
+    {
+      "url": "https://solution-squad-backend-production.onrender.com/",
+      "description": "Backend Production Server"
+    }
+  ],
   "paths": {
     "/api/auth/signup": {
       "post": {

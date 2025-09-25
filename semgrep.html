@@ -1,17 +1,28 @@
-<html><head><title>Semgrep Report</title>
+<!doctype html>
+<html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>
+<title>Semgrep Report</title>
 <style>
-body { font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; }
-h1 { text-align: center; color: #333; margin-bottom: 30px; }
-.finding { margin: 15px 0; padding: 15px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); background: #fff; }
-.finding ul { list-style: none; padding: 0; margin: 0; }
-.finding li { margin: 6px 0; }
-.badge { display: inline-block; padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: bold; color: #fff; }
-.critical { background: #e63946; }
-.high { background: #ff8800; }
-.medium { background: #f1c40f; }
-.low { background: #2ecc71; }
-.path { font-family: monospace; color: #555; }
+body { font-family: Arial, sans-serif; padding: 20px; background: #f5f7fb; color: #222; }
+h1 { text-align: center; color: #111; margin-bottom: 18px; font-size: 28px; }
+.container { max-width: 1000px; margin: 0 auto; }
+.finding { margin: 12px 0; padding: 14px; border-radius: 10px; box-shadow: 0 2px 6px rgba(16,24,40,0.05); background: #fff; display:flex; gap:12px; align-items:flex-start; }
+.meta { min-width: 140px; }
+.meta .badge { display:inline-block; padding:6px 10px; border-radius:999px; font-weight:700; font-size:12px; color:#fff; }
+.badge.error { background:#e53e3e; }
+.badge.warning { background:#dd6b20; }
+.badge.info { background:#3182ce; }
+.badge.critical { background:#9b2c2c; }
+.badge.high { background:#c05621; }
+.badge.medium { background:#d69e2e; color:#111; }
+.badge.low { background:#2f855a; }
+.badge.unknown { background:#718096; }
+.content { flex:1; }
+.file { font-family:monospace; color:#2d3748; font-weight:600; }
+.details { margin-top:6px; }
+.details li { margin:6px 0; list-style: none; }
+.message { background:#f7fafc; padding:8px; border-radius:6px; border:1px solid #edf2f7; }
 </style></head><body>
+<div class='container'>
 <h1>Semgrep Findings</h1>
-<div class='finding'><span class='badge info'>INFO</span><ul><li><b>File:</b> <span class='path'>backend/src/controllers/auth.controllers.js</span></li><li><b>Line:</b> 35</li><li><b>Message:</b> Controller creates/saves a password without hashing it first. Hash passwords before storing or rely on model pre-save hashing.</li></ul></div>
-</body></html>
+<div class='finding'><div class='meta'><span class='badge info'>INFO</span></div><div class='content'><div class='file'>backend/src/controllers/auth.controllers.js:35</div><ul class='details'><li><strong>Message</strong></li><li class='message'>Controller creates/saves a password without hashing it first. Hash passwords before storing or rely on model pre-save hashing.</li></ul></div></div>
+</div></body></html>

@@ -8,14 +8,8 @@ body { font-family: Arial, sans-serif; padding: 20px; }
 .low { background: #e6ffcc; }
 </style></head><body>
 <h1>Semgrep Findings</h1>
-<div class='finding error'><b>backend/src/controllers/auth.controllers.js:28</b> [ERROR] - Possible NoSQL injection risk. Validate and sanitize user input before using in queries.</div>
-<div class='finding error'><b>backend/src/controllers/auth.controllers.js:75</b> [ERROR] - Possible NoSQL injection risk. Validate and sanitize user input before using in queries.</div>
-<div class='finding error'><b>backend/src/controllers/auth.controllers.js:146</b> [ERROR] - Possible NoSQL injection risk. Validate and sanitize user input before using in queries.</div>
-<div class='finding error'><b>backend/src/controllers/auth.controllers.js:206</b> [ERROR] - Possible NoSQL injection risk. Validate and sanitize user input before using in queries.</div>
-<div class='finding error'><b>backend/src/controllers/auth.controllers.js:251</b> [ERROR] - Possible NoSQL injection risk. Validate and sanitize user input before using in queries.</div>
-<div class='finding error'><b>backend/src/controllers/auth.controllers.js:306</b> [ERROR] - Possible NoSQL injection risk. Validate and sanitize user input before using in queries.</div>
-<div class='finding error'><b>backend/src/controllers/auth.controllers.js:316</b> [ERROR] - Possible NoSQL injection risk. Validate and sanitize user input before using in queries.</div>
-<div class='finding error'><b>backend/src/controllers/product.controllers.js:6</b> [ERROR] - Avoid sending raw Error objects to clients. Mask sensitive data before sending.</div>
-<div class='finding error'><b>backend/src/controllers/product.controllers.js:24</b> [ERROR] - Avoid sending raw Error objects to clients. Mask sensitive data before sending.</div>
-<div class='finding error'><b>backend/src/controllers/product.controllers.js:34</b> [ERROR] - Possible NoSQL injection risk. Validate and sanitize user input before using in queries.</div>
+<div class='finding error'><b>backend/src/controllers/auth.controllers.js:35</b> [ERROR] - Password field saved without a pre-save hashing hook. Ensure your model has bcrypt hashing in pre('save').</div>
+<div class='finding error'><b>backend/src/controllers/auth.controllers.js:115</b> [ERROR] - Avoid sending raw Error objects to clients. Mask sensitive data before sending (return a generic message and log details server-side).</div>
+<div class='finding error'><b>backend/src/controllers/product.controllers.js:6</b> [ERROR] - Avoid sending raw Error objects to clients. Mask sensitive data before sending (return a generic message and log details server-side).</div>
+<div class='finding error'><b>backend/src/controllers/product.controllers.js:24</b> [ERROR] - Avoid sending raw Error objects to clients. Mask sensitive data before sending (return a generic message and log details server-side).</div>
 </body></html>

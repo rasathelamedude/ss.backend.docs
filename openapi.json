@@ -377,7 +377,7 @@
       }
     },
     "/api/auth/delete-account": {
-      "post": {
+      "delete": {
         "summary": "Delete buyer account",
         "description": "Deletes the authenticated buyer's account. Requires a valid access token and the buyer's current password.",
         "parameters": [
@@ -735,7 +735,7 @@
       }
     },
     "/api/companies/delete-company/{id}": {
-      "post": {
+      "delete": {
         "summary": "Delete a company by ID",
         "description": "Allows an admin to delete a company by its ID. Requires admin authorization.",
         "security": [

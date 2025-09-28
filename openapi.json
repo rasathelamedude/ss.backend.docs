@@ -66,8 +66,7 @@
                     "type": "string",
                     "enum": [
                       "male",
-                      "female",
-                      "other"
+                      "female"
                     ],
                     "description": "Gender of the buyer",
                     "example": "male"
@@ -297,6 +296,315 @@
           },
           "404": {
             "description": "No user found"
+          }
+        }
+      }
+    },
+    "/api/auth/change-password": {
+      "post": {
+        "summary": "Change buyer password",
+        "description": "Allows a logged-in buyer to change their password. Requires a valid access token. Clears all existing sessions upon success.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Bearer access token (format: \"Bearer <token>\")"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "currentPassword",
+                  "newPassword"
+                ],
+                "properties": {
+                  "currentPassword": {
+                    "type": "string",
+                    "format": "password",
+                    "description": "Current password of the buyer",
+                    "example": "OldPass123!"
+                  },
+                  "newPassword": {
+                    "type": "string",
+                    "format": "password",
+                    "description": "New password to set",
+                    "example": "NewStrongPass456!"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password changed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Password changed successfuly. Please login again."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No token provided, invalid token, access token expired, or current password does not match"
+          },
+          "404": {
+            "description": "No user found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/auth/delete-account": {
+      "post": {
+        "summary": "Delete buyer account",
+        "description": "Deletes the authenticated buyer's account. Requires a valid access token and the buyer's current password.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Bearer access token (format: \"Bearer <token>\")"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "password"
+                ],
+                "properties": {
+                  "password": {
+                    "type": "string",
+                    "format": "password",
+                    "description": "Current password of the buyer",
+                    "example": "CurrentPass123!"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Account deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Account deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No token provided, unauthorized, or password mismatch"
+          },
+          "404": {
+            "description": "No user found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/auth/change-phonenumber": {
+      "post": {
+        "summary": "Change buyer phone number",
+        "description": "Allows a logged-in buyer to change their phone number. Requires a valid access token and current password. Clears all existing sessions. New phone number must be verified.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Bearer access token (format: \"Bearer <token>\")"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "newPhoneNumber",
+                  "password"
+                ],
+                "properties": {
+                  "newPhoneNumber": {
+                    "type": "string",
+                    "description": "New Iraqi phone number (must start with 07 and contain 11 digits)",
+                    "pattern": "^07[0-9]{9}$",
+                    "example": "07709876543"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password",
+                    "description": "Current password of the buyer",
+                    "example": "CurrentPass123!"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Phone number changed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Phone number changed successfully. Please log in again."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Iraq phone number format"
+          },
+          "401": {
+            "description": "No token provided, unauthorized, or password mismatch"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "409": {
+            "description": "Phone number already registered"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/auth/profile": {
+      "get": {
+        "summary": "Get buyer profile",
+        "description": "Returns the authenticated buyer's profile information. Requires a valid access token. Password is excluded from the response.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Bearer access token (format: \"Bearer <token>\")"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Buyer profile retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "firstName": {
+                          "type": "string"
+                        },
+                        "lastName": {
+                          "type": "string"
+                        },
+                        "phoneNo": {
+                          "type": "string"
+                        },
+                        "dateOfBirth": {
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "gender": {
+                          "type": "string"
+                        },
+                        "isVerified": {
+                          "type": "boolean"
+                        },
+                        "tokens": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "refreshToken": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No token provided or unauthorized"
+          },
+          "404": {
+            "description": "No user found for provided token"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       }

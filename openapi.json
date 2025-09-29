@@ -697,6 +697,65 @@
             "description": "Internal server error!"
           }
         }
+      },
+      "put": {
+        "summary": "Updating a specific location",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "refresh-token",
+            "type": "string",
+            "description": "The refresh token of the user",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "location-id",
+            "type": "string",
+            "description": "The id of the location which should be updated",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "locationName",
+                  "nCoordinate",
+                  "eCoordinate"
+                ],
+                "properties": {
+                  "locationName": {
+                    "type": "string",
+                    "description": "The new name of the location"
+                  },
+                  "nCoordinate": {
+                    "type": "string",
+                    "description": "The new north coordinate of the location"
+                  },
+                  "eCoordinate": {
+                    "type": "string",
+                    "description": "The new east coordinate of the location"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Location updated successfully!"
+          },
+          "404": {
+            "description": "Location or user information not found!"
+          },
+          "500": {
+            "description": "Internal server error!"
+          }
+        }
       }
     },
     "/api/companies": {

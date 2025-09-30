@@ -993,6 +993,144 @@
           }
         }
       }
+    },
+    "/api/company/{companyId}": {
+      "get": {
+        "summary": "Get all models of a company",
+        "description": "Retrieves all models for a specific company by its ID.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "companyId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the company"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Company models retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "companyName": {
+                      "type": "string",
+                      "example": "Toyota"
+                    },
+                    "count": {
+                      "type": "integer",
+                      "example": 5
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "Corolla"
+                          },
+                          "year": {
+                            "type": "integer",
+                            "example": 2023
+                          },
+                          "code": {
+                            "type": "string",
+                            "example": "CR23"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Company not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a new model to a company",
+        "description": "Adds a new model to the specified company. Requires the company ID and model name.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "companyId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the company"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "modelName"
+                ],
+                "properties": {
+                  "modelName": {
+                    "type": "string",
+                    "description": "Name of the new model",
+                    "example": "Corolla"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Model added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Corolla added to the company"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing credentials (companyId or modelName)"
+          },
+          "404": {
+            "description": "Company not found"
+          },
+          "409": {
+            "description": "Model already exists"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
     }
   },
   "components": {},

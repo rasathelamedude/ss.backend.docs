@@ -994,10 +994,10 @@
         }
       }
     },
-    "/api/company/{companyId}": {
+    "/api/company/{companyId}/models/": {
       "get": {
         "summary": "Get all models of a company",
-        "description": "Retrieves all models for a specific company by its ID.",
+        "description": "Returns a list of all models for a specific company by its ID.",
         "parameters": [
           {
             "in": "path",
@@ -1011,7 +1011,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Company models retrieved successfully",
+            "description": "List of models retrieved successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -1027,7 +1027,7 @@
                     },
                     "count": {
                       "type": "integer",
-                      "example": 5
+                      "example": 3
                     },
                     "data": {
                       "type": "array",
@@ -1037,6 +1037,16 @@
                           "name": {
                             "type": "string",
                             "example": "Corolla"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2025-09-28T21:00:00.000Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2025-09-28T21:00:00.000Z"
                           }
                         }
                       }
@@ -1056,7 +1066,7 @@
       },
       "post": {
         "summary": "Add a new model to a company",
-        "description": "Adds a new model to the specified company. Requires the company ID and model name.",
+        "description": "Creates a new model under the specified company. Model names are case-insensitive and must be unique within the company.",
         "parameters": [
           {
             "in": "path",
@@ -1065,7 +1075,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "The ID of the company"
+            "description": "The ID of the company to add the model to"
           }
         ],
         "requestBody": {
@@ -1080,7 +1090,7 @@
                 "properties": {
                   "modelName": {
                     "type": "string",
-                    "description": "Name of the new model",
+                    "description": "Name of the new model to add",
                     "example": "Corolla"
                   }
                 }
@@ -1110,13 +1120,84 @@
             }
           },
           "400": {
-            "description": "Missing credentials (companyId or modelName)"
+            "description": "Missing required fields"
           },
           "404": {
             "description": "Company not found"
           },
           "409": {
             "description": "Model already exists"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/company/{companyId}/models/{modelId}": {
+      "delete": {
+        "summary": "Delete a model from a company",
+        "description": "Deletes a specified model from the given company by ID. Returns the updated list of models.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "companyId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the company"
+          },
+          {
+            "in": "path",
+            "name": "modelId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the model to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Model deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Corolla deleted from the company"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing companyId or modelId"
+          },
+          "404": {
+            "description": "Company or model not found"
           },
           "500": {
             "description": "Internal server error"

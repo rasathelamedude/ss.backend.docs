@@ -1037,14 +1037,6 @@
                           "name": {
                             "type": "string",
                             "example": "Corolla"
-                          },
-                          "year": {
-                            "type": "integer",
-                            "example": 2023
-                          },
-                          "code": {
-                            "type": "string",
-                            "example": "CR23"
                           }
                         }
                       }

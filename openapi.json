@@ -16,6 +16,76 @@
     }
   ],
   "paths": {
+    "/api/admin": {
+      "post": {
+        "summary": "Create a new admin",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "refresh-token",
+            "type": "string",
+            "description": "The refresh token of the super admin",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "firstName",
+                  "lastName",
+                  "phoneNo",
+                  "password",
+                  "role"
+                ],
+                "properties": {
+                  "firstName": {
+                    "type": "string",
+                    "description": "The first name of the created admin"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "description": "The last name of the created admin"
+                  },
+                  "phoneNo": {
+                    "type": "string",
+                    "description": "The phone number of the created admin"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "The password of the created admin"
+                  },
+                  "role": {
+                    "type": "string",
+                    "description": "The role of the created admin which should be admin or super admin"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Admin created successfully!"
+          },
+          "403": {
+            "description": "The admin has not super admin role!"
+          },
+          "404": {
+            "description": "Super admin information not found!"
+          },
+          "409": {
+            "description": "Admin already exist!"
+          },
+          "500": {
+            "description": "Internal server error!"
+          }
+        }
+      }
+    },
     "/api/auth/signup": {
       "post": {
         "summary": "Register a new buyer account",
@@ -687,8 +757,42 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Location sent successfully!"
+          "201": {
+            "description": "Location sent successfully!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Location sent successfully!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "locationName": {
+                          "type": "string"
+                        },
+                        "nCoordinate": {
+                          "type": "string"
+                        },
+                        "eCoordinate": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
             "description": "Location or user information not found!"
@@ -781,31 +885,6 @@
           },
           "404": {
             "description": "Location or user information not found!"
-          },
-          "500": {
-            "description": "Internal server error!"
-          }
-        }
-      }
-    },
-    "/api/buyer/locations": {
-      "get": {
-        "summary": "Get all locations of a specific buyer",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "refresh-token",
-            "type": "string",
-            "description": "The refresh token of the user",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Locations sent successfully!"
-          },
-          "404": {
-            "description": "User information not found!"
           },
           "500": {
             "description": "Internal server error!"

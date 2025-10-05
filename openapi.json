@@ -679,6 +679,144 @@
         }
       }
     },
+    "/api/buyer/fcm-token": {
+      "post": {
+        "summary": "Add FCM token for a buyer",
+        "description": "Adds a Firebase Cloud Messaging (FCM) token to a buyer’s account for push notifications. A buyer can only have up to 2 active tokens.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "fcmToken",
+                  "buyerId"
+                ],
+                "properties": {
+                  "fcmToken": {
+                    "type": "string",
+                    "description": "Firebase Cloud Messaging token",
+                    "example": "fcm_example_token_123"
+                  },
+                  "buyerId": {
+                    "type": "string",
+                    "description": "ID of the buyer",
+                    "example": "64f1234567890abcdef12345"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "FCM token added successfully or already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "FCM token added successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "fcmTokens": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing fcmToken or buyerId"
+          },
+          "404": {
+            "description": "Buyer not found"
+          },
+          "409": {
+            "description": "Maximum device limit reached (2 devices)"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove FCM token for a buyer",
+        "description": "Removes a Firebase Cloud Messaging (FCM) token from a buyer’s account, usually when logging out from a device.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "fcmToken",
+                  "buyerId"
+                ],
+                "properties": {
+                  "fcmToken": {
+                    "type": "string",
+                    "description": "Firebase Cloud Messaging token to remove",
+                    "example": "fcm_example_token_123"
+                  },
+                  "buyerId": {
+                    "type": "string",
+                    "description": "ID of the buyer",
+                    "example": "64f1234567890abcdef12345"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "FCM token removed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "FCM token removed successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing fcmToken or buyerId"
+          },
+          "404": {
+            "description": "Buyer not found or FCM token not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/api/buyer/location": {
       "post": {
         "summary": "Add a new user location",

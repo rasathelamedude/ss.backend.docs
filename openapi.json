@@ -366,6 +366,9 @@
           },
           "404": {
             "description": "No user found"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       }

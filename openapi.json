@@ -826,9 +826,9 @@
         "parameters": [
           {
             "in": "header",
-            "name": "refresh-token",
+            "name": "authorization",
             "type": "string",
-            "description": "The refresh token of the user",
+            "description": "The access token of the user that starts with bearer",
             "required": true
           }
         ],
@@ -865,6 +865,9 @@
           "201": {
             "description": "Location added successfully!"
           },
+          "401": {
+            "description": "Token expired!"
+          },
           "403": {
             "description": "Location limit reached!"
           },
@@ -884,9 +887,9 @@
         "parameters": [
           {
             "in": "header",
-            "name": "refresh-token",
+            "name": "authorization",
             "type": "string",
-            "description": "The refresh token of the user",
+            "description": "The access token of the user that starts with bearer",
             "required": true
           },
           {
@@ -935,6 +938,9 @@
               }
             }
           },
+          "401": {
+            "description": "Token expired!"
+          },
           "404": {
             "description": "Location or user information not found!"
           },
@@ -948,9 +954,9 @@
         "parameters": [
           {
             "in": "header",
-            "name": "refresh-token",
+            "name": "authorization",
             "type": "string",
-            "description": "The refresh token of the user",
+            "description": "The access token of the user that starts with bearer",
             "required": true
           },
           {
@@ -964,6 +970,9 @@
         "responses": {
           "200": {
             "description": "Location deleted successfully!"
+          },
+          "401": {
+            "description": "Token expired!"
           },
           "404": {
             "description": "Location or user information not found!"

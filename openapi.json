@@ -430,7 +430,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "The refresh token issued during login"
+            "description": "The refresh token issued during login (put the token here)"
           }
         ],
         "responses": {
@@ -924,6 +924,173 @@
         }
       }
     },
+    "/api/auth/profile-picture": {
+      "post": {
+        "summary": "Change buyer profile picture",
+        "description": "Allows a logged-in buyer to change their profile picture. Requires a valid access token.",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Bearer access token (format: \"Bearer <token>\")"
+          },
+          {
+            "in": "formData",
+            "name": "image",
+            "type": "file",
+            "required": true,
+            "description": "The new profile image to upload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Profile picture changed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Profile Picture successfully changed"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No image provided"
+          },
+          "401": {
+            "description": "No token provided or invalid token"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/auth/edit-profile": {
+      "patch": {
+        "summary": "Edit buyer profile",
+        "description": "Allows a logged-in buyer to update their profile details. At least one field must be provided. Requires a valid access token.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Bearer access token (format: \"Bearer <token>\")"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "firstName": {
+                    "type": "string",
+                    "description": "First name of the buyer (max 50 characters)",
+                    "example": "Ali"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "description": "Last name of the buyer (max 50 characters)",
+                    "example": "Hassan"
+                  },
+                  "gender": {
+                    "type": "string",
+                    "enum": [
+                      "Male",
+                      "Female"
+                    ],
+                    "description": "Gender of the buyer",
+                    "example": "Male"
+                  },
+                  "dob": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Date of birth (YYYY-MM-DD), must be at least 13 years old",
+                    "example": "2000-01-27"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Profile updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Profile updated successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "firstName": {
+                          "type": "string"
+                        },
+                        "lastName": {
+                          "type": "string"
+                        },
+                        "gender": {
+                          "type": "string"
+                        },
+                        "dob": {
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "profilePicLink": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or no fields provided"
+          },
+          "401": {
+            "description": "No token provided or unauthorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/api/buyer/location": {
       "post": {
         "summary": "Add a new user location",
@@ -1021,7 +1188,7 @@
                       "example": "Location sent successfully!"
                     },
                     "data": {
-                      "type": "object",
+                      "type": "array of objects",
                       "properties": {
                         "_id": {
                           "type": "string"
@@ -1118,7 +1285,7 @@
                       "example": "Locations sent successfully!"
                     },
                     "data": {
-                      "type": "array",
+                      "type": "array of objects",
                       "description": "An array containing all buyer location objects",
                       "items": {
                         "type": "object",

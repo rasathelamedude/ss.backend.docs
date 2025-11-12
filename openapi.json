@@ -229,6 +229,66 @@
             "description": "Internal server error!"
           }
         }
+      },
+      "delete": {
+        "summary": "Deleting the account of an admin, or self deleting the super admin account.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The access token of the super admin that starts with Bearer",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "admin-id",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The id of the admin that should be deleted",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Admin deleted successfully!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Admin deleted successfully!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Admin id is not found!"
+          },
+          "401": {
+            "description": "Invalid credentials"
+          },
+          "403": {
+            "description": "The admin has not super admin role!"
+          },
+          "404": {
+            "description": "Id or super admin information not found!"
+          },
+          "500": {
+            "description": "Internal server error!"
+          }
+        }
       }
     },
     "/api/admin/login": {

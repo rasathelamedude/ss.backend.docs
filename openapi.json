@@ -289,6 +289,78 @@
             "description": "Internal server error!"
           }
         }
+      },
+      "patch": {
+        "summary": "Changing the admin account password.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The access token of the admin that starts with Bearer",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "oldPassword",
+                  "newPassword"
+                ],
+                "properties": {
+                  "oldPassword": {
+                    "type": "string",
+                    "description": "The previous password of the admin that should be changed"
+                  },
+                  "newPassword": {
+                    "type": "string",
+                    "description": "The new password of the admin"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password changed successfully!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Password changed successfully!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials"
+          },
+          "403": {
+            "description": "Admin only!"
+          },
+          "404": {
+            "description": "Passwords not sent!"
+          },
+          "500": {
+            "description": "Internal server error!"
+          }
+        }
       }
     },
     "/api/admin/login": {
@@ -486,6 +558,74 @@
           },
           "500": {
             "description": "Internal server error!"
+          }
+        }
+      }
+    },
+    "/api/notification/global": {
+      "post": {
+        "summary": "Send a global notification",
+        "description": "Sends a push notification to all users. Requires `title` and `body`. Optional `data` can be included for additional info.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "title",
+                  "body"
+                ],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "description": "Title of the notification",
+                    "example": "New Update Available"
+                  },
+                  "body": {
+                    "type": "string",
+                    "description": "Body/content of the notification",
+                    "example": "Check out the latest features in the app."
+                  },
+                  "data": {
+                    "type": "object",
+                    "description": "Optional additional data to send with the notification",
+                    "example": {
+                      "type": "update",
+                      "version": "1.2.3"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Notification sent successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Global notification sent"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Title or body missing"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       }

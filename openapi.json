@@ -108,7 +108,7 @@
         }
       },
       "get": {
-        "summary": "Get some admins information",
+        "summary": "Get admin information",
         "parameters": [
           {
             "in": "header",
@@ -116,31 +116,22 @@
             "schema": {
               "type": "string"
             },
-            "description": "The access token of the admin that tries to get the admins, starts with Bearer",
+            "description": "The access token of the admin that tries to get the profile, starts with Bearer",
             "required": true
           },
           {
             "in": "header",
-            "name": "page",
+            "name": "admin-id",
             "schema": {
               "type": "string"
             },
-            "description": "The page of the admins",
-            "required": true
-          },
-          {
-            "in": "header",
-            "name": "limit",
-            "schema": {
-              "type": "string"
-            },
-            "description": "The amount of admins that should be returned",
+            "description": "The id of the admin",
             "required": true
           }
         ],
         "responses": {
           "200": {
-            "description": "Admins sent successfully!",
+            "description": "Admin sent successfully!",
             "content": {
               "application/json": {
                 "schema": {
@@ -152,10 +143,10 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Admins sent successfully!"
+                      "example": "Admin sent successfully!"
                     },
                     "data": {
-                      "type": "array",
+                      "type": "object",
                       "properties": {
                         "_id": {
                           "type": "string"
@@ -179,35 +170,6 @@
                         "updatedAt": {
                           "type": "string",
                           "format": "date-time"
-                        }
-                      },
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "_id": {
-                            "type": "string"
-                          },
-                          "firstName": {
-                            "type": "string"
-                          },
-                          "lastName": {
-                            "type": "string"
-                          },
-                          "phoneNo": {
-                            "type": "string"
-                          },
-                          "role": {
-                            "type": "string",
-                            "format": "date-time"
-                          },
-                          "createdAt": {
-                            "type": "string",
-                            "format": "date-time"
-                          },
-                          "updatedAt": {
-                            "type": "string",
-                            "format": "date-time"
-                          }
                         }
                       }
                     }
@@ -356,6 +318,177 @@
           },
           "404": {
             "description": "Passwords not sent!"
+          },
+          "500": {
+            "description": "Internal server error!"
+          }
+        }
+      }
+    },
+    "/api/admin/profile": {
+      "get": {
+        "summary": "Get profile information",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The access token of the admin that tries to get the profile information, starts with Bearer",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Profile sent successfully!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Profile sent successfully!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "firstName": {
+                          "type": "string"
+                        },
+                        "lastName": {
+                          "type": "string"
+                        },
+                        "phoneNo": {
+                          "type": "string"
+                        },
+                        "role": {
+                          "type": "string"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials"
+          },
+          "404": {
+            "description": "Admin information not found!"
+          },
+          "500": {
+            "description": "Internal server error!"
+          }
+        }
+      }
+    },
+    "/api/admin/some": {
+      "get": {
+        "summary": "Get some admins information",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The access token of the admin that tries to get the admins, starts with Bearer",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "page",
+            "schema": {
+              "type": "number"
+            },
+            "description": "The page of the admins",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "limit",
+            "schema": {
+              "type": "number"
+            },
+            "description": "The amount of admins that should be returned",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Admins sent successfully!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Admins sent successfully!"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string"
+                          },
+                          "firstName": {
+                            "type": "string"
+                          },
+                          "lastName": {
+                            "type": "string"
+                          },
+                          "phoneNo": {
+                            "type": "string"
+                          },
+                          "role": {
+                            "type": "string"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials"
+          },
+          "404": {
+            "description": "Admin information not found!"
           },
           "500": {
             "description": "Internal server error!"
@@ -2150,6 +2283,306 @@
           },
           "500": {
             "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/seller": {
+      "post": {
+        "summary": "Create a new seller",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The access token of the admin that starts with Bearer",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "phoneNo",
+                  "storeName",
+                  "location"
+                ],
+                "properties": {
+                  "phoneNo": {
+                    "type": "string",
+                    "description": "The phone number of the seller"
+                  },
+                  "storeName": {
+                    "type": "string",
+                    "description": "The name of the store"
+                  },
+                  "location": {
+                    "type": "object",
+                    "required": [
+                      "locationName",
+                      "longitude",
+                      "latitude"
+                    ],
+                    "properties": {
+                      "locationName": {
+                        "type": "string",
+                        "description": "The name of the store location"
+                      },
+                      "longitude": {
+                        "type": "string",
+                        "description": "The longitude coordinate of the store in the map"
+                      },
+                      "latitude": {
+                        "type": "string",
+                        "description": "The latitude coordinate of the store in the map"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Seller created successfully!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Seller created successfuly!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials"
+          },
+          "404": {
+            "description": "Admin or seller information not found!"
+          },
+          "500": {
+            "description": "Internal server error!"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get seller information",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The access token of the admin that starts with Bearer",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "seller-id",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The id of the seller that should be returned",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Seller sent successfully!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Seller sent successfuly!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "phoneNo": {
+                          "type": "string"
+                        },
+                        "storeName": {
+                          "type": "string"
+                        },
+                        "products": {
+                          "type": "array"
+                        },
+                        "location": {
+                          "type": "object",
+                          "properties": {
+                            "locationName": {
+                              "type": "string",
+                              "description": "The name of the seller location"
+                            },
+                            "longitude": {
+                              "type": "string",
+                              "description": "The longitude coordinate of the location"
+                            },
+                            "latitude": {
+                              "type": "string",
+                              "description": "The latitude coordinate of the location"
+                            }
+                          }
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials"
+          },
+          "404": {
+            "description": "Admin or seller information not found!"
+          },
+          "500": {
+            "description": "Internal server error!"
+          }
+        }
+      }
+    },
+    "/api/seller/some": {
+      "get": {
+        "summary": "Get some sellers information",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The access token of the admin that starts with Bearer",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "page",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The page of the sellers",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "limit",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The number of the sellers that should be sent!",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sellers sent successfully!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Sellers sent successfuly!"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string"
+                          },
+                          "phoneNo": {
+                            "type": "string"
+                          },
+                          "storeName": {
+                            "type": "string"
+                          },
+                          "products": {
+                            "type": "array"
+                          },
+                          "location": {
+                            "type": "object",
+                            "properties": {
+                              "locationName": {
+                                "type": "string",
+                                "description": "The name of the seller location"
+                              },
+                              "longitude": {
+                                "type": "string",
+                                "description": "The longitude coordinate of the location"
+                              },
+                              "latitude": {
+                                "type": "string",
+                                "description": "The latitude coordinate of the location"
+                              }
+                            }
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials"
+          },
+          "404": {
+            "description": "Admin or seller information not found!"
+          },
+          "500": {
+            "description": "Internal server error!"
           }
         }
       }

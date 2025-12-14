@@ -2534,7 +2534,7 @@
     "/api/notifications": {
       "get": {
         "summary": "Get all notifications",
-        "description": "Retrieves all notifications of the authenticated buyer with pagination. Requires a valid access token.",
+        "description": "Retrieves all notifications for the authenticated buyer with pagination. Requires a valid access token.",
         "parameters": [
           {
             "in": "header",
@@ -2568,30 +2568,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Notifications retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Notifications sent successfully!"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Notification"
-                      }
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Notifications retrieved successfully"
           },
           "404": {
             "description": "Page or limit not provided"
@@ -2652,7 +2629,7 @@
     "/api/notifications/read-all-notifications": {
       "patch": {
         "summary": "Mark all notifications as read",
-        "description": "Marks all notifications as read for the authenticated buyer. Requires a valid access token.",
+        "description": "Marks all unread notifications for the authenticated buyer as read. Requires a valid access token.",
         "parameters": [
           {
             "in": "header",
@@ -2677,10 +2654,10 @@
         }
       }
     },
-    "/api/notifications/delete-all-notification": {
+    "/api/notifications/delete-all-notifications": {
       "delete": {
         "summary": "Delete all notifications",
-        "description": "Deletes all notifications of the authenticated buyer. Requires a valid access token.",
+        "description": "Deletes all notifications for the authenticated buyer. Requires a valid access token.",
         "parameters": [
           {
             "in": "header",
@@ -3215,9 +3192,13 @@
             "type": "string",
             "example": "New Order"
           },
-          "message": {
+          "body": {
             "type": "string",
             "example": "You have a new order."
+          },
+          "data": {
+            "type": "object",
+            "example": {}
           },
           "isRead": {
             "type": "boolean",

@@ -2531,6 +2531,125 @@
         }
       }
     },
+    "/api/notifications/read-notification": {
+      "patch": {
+        "summary": "Mark a notification as read",
+        "description": "Marks a specific unread notification as read for the authenticated buyer.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Bearer access token (format: \"Bearer <token>\")"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "notificationId"
+                ],
+                "properties": {
+                  "notificationId": {
+                    "type": "string",
+                    "description": "ID of the notification to mark as read",
+                    "example": "65c9f2c6e12a4b9f0d3a91e7"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Notification marked as read successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Notification marked as read successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Notification ID is required"
+          },
+          "401": {
+            "description": "No token provided or unauthorized"
+          },
+          "404": {
+            "description": "Notification not found or already read"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/notifications/read-all-notifications": {
+      "patch": {
+        "summary": "Mark all notifications as read",
+        "description": "Marks all unread notifications as read for the authenticated buyer.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Bearer access token (format: \"Bearer <token>\")"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All notifications marked as read successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "All notifications marked as read successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No token provided or unauthorized"
+          },
+          "404": {
+            "description": "No unread notifications found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/api/seller": {
       "post": {
         "summary": "Create a new seller",

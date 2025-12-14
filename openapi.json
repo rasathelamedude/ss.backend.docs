@@ -2650,6 +2650,186 @@
         }
       }
     },
+    "/api/notifications": {
+      "get": {
+        "summary": "Get all notifications",
+        "description": "Retrieves all notifications of the authenticated buyer with pagination. Requires a valid access token.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Bearer access token (format: \"Bearer <token>\")"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            },
+            "description": "Page number"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 10
+            },
+            "description": "Number of notifications per page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notifications retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Notifications sent successfully!"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Notification"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Page or limit not provided"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/notifications/delete-all-notifications": {
+      "delete": {
+        "summary": "Delete all notifications",
+        "description": "Deletes all notifications of the authenticated buyer. Requires a valid access token.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Bearer access token (format: \"Bearer <token>\")"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All notifications deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "count": {
+                      "type": "integer",
+                      "example": 5
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "notifications deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No token provided or unauthorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/notifications/{notificationId}": {
+      "delete": {
+        "summary": "Delete a single notification",
+        "description": "Deletes a specific notification by ID for the authenticated buyer. Requires a valid access token.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Bearer access token (format: \"Bearer <token>\")"
+          },
+          {
+            "in": "path",
+            "name": "notificationId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the notification to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notification deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "notification deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Notification ID is missing"
+          },
+          "401": {
+            "description": "No token provided or unauthorized"
+          },
+          "404": {
+            "description": "Notification not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/api/seller": {
       "post": {
         "summary": "Create a new seller",

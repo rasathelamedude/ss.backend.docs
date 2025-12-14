@@ -2531,125 +2531,6 @@
         }
       }
     },
-    "/api/notifications/read-notification": {
-      "patch": {
-        "summary": "Mark a notification as read",
-        "description": "Marks a specific unread notification as read for the authenticated buyer.",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Bearer access token (format: \"Bearer <token>\")"
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "notificationId"
-                ],
-                "properties": {
-                  "notificationId": {
-                    "type": "string",
-                    "description": "ID of the notification to mark as read",
-                    "example": "65c9f2c6e12a4b9f0d3a91e7"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Notification marked as read successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Notification marked as read successfully"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Notification ID is required"
-          },
-          "401": {
-            "description": "No token provided or unauthorized"
-          },
-          "404": {
-            "description": "Notification not found or already read"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    },
-    "/api/notifications/read-all-notifications": {
-      "patch": {
-        "summary": "Mark all notifications as read",
-        "description": "Marks all unread notifications as read for the authenticated buyer.",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Bearer access token (format: \"Bearer <token>\")"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "All notifications marked as read successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "All notifications marked as read successfully"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "No token provided or unauthorized"
-          },
-          "404": {
-            "description": "No unread notifications found"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    },
     "/api/notifications": {
       "get": {
         "summary": "Get all notifications",
@@ -2721,7 +2602,82 @@
         }
       }
     },
-    "/api/notifications/delete-all-notifications": {
+    "/api/notifications/read-notification": {
+      "patch": {
+        "summary": "Mark a single notification as read",
+        "description": "Marks a specific notification as read for the authenticated buyer. Requires a valid access token.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Bearer access token (format: \"Bearer <token>\")"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "notificationId": {
+                    "type": "string",
+                    "example": "64ab3e2c1234567890abcdef"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Notification marked as read successfully"
+          },
+          "400": {
+            "description": "Notification ID is required"
+          },
+          "404": {
+            "description": "Notification not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/notifications/read-all-notifications": {
+      "patch": {
+        "summary": "Mark all notifications as read",
+        "description": "Marks all notifications as read for the authenticated buyer. Requires a valid access token.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Bearer access token (format: \"Bearer <token>\")"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All notifications marked as read successfully"
+          },
+          "404": {
+            "description": "No unread notifications found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/notifications/delete-all-notification": {
       "delete": {
         "summary": "Delete all notifications",
         "description": "Deletes all notifications of the authenticated buyer. Requires a valid access token.",
@@ -2738,31 +2694,7 @@
         ],
         "responses": {
           "200": {
-            "description": "All notifications deleted successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "count": {
-                      "type": "integer",
-                      "example": 5
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "notifications deleted successfully"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "No token provided or unauthorized"
+            "description": "All notifications deleted successfully"
           },
           "500": {
             "description": "Internal server error"
@@ -2796,30 +2728,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Notification deleted successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "notification deleted successfully"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Notification deleted successfully"
           },
           "400": {
-            "description": "Notification ID is missing"
-          },
-          "401": {
-            "description": "No token provided or unauthorized"
+            "description": "Notification ID is required"
           },
           "404": {
             "description": "Notification not found"
@@ -3286,6 +3198,44 @@
       }
     }
   },
-  "components": {},
+  "components": {
+    "schemas": {
+      "Notification": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "64ab3e2c1234567890abcdef"
+          },
+          "buyerId": {
+            "type": "string",
+            "example": "64ab3d9f1234567890abcdef"
+          },
+          "title": {
+            "type": "string",
+            "example": "New Order"
+          },
+          "message": {
+            "type": "string",
+            "example": "You have a new order."
+          },
+          "isRead": {
+            "type": "boolean",
+            "example": false
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-12-14T22:30:00Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-12-14T22:31:00Z"
+          }
+        }
+      }
+    }
+  },
   "tags": []
 }

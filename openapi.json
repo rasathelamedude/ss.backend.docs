@@ -1664,6 +1664,250 @@
         }
       }
     },
+    "/api/auth/verify-account": {
+      "post": {
+        "summary": "Verify buyer account",
+        "description": "Verifies a buyer's account using a verification code sent during registration. Marks the account as verified if successful.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "verificationCode"
+                ],
+                "properties": {
+                  "verificationCode": {
+                    "type": "string",
+                    "description": "The verification code sent to the buyer",
+                    "example": "123456"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Account verified successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Account verified successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Verification code missing, invalid, or expired"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/auth/resend-verification-code": {
+      "post": {
+        "summary": "Resend account verification code",
+        "description": "Sends a new verification code to a buyer's phone if the account is not yet verified. Enforces a cooldown period to prevent abuse.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "phone"
+                ],
+                "properties": {
+                  "phone": {
+                    "type": "string",
+                    "description": "The buyer's registered phone number",
+                    "example": "07701234567"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Verification code sent successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Verification code sent to your phone number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Phone number missing or account already verified"
+          },
+          "404": {
+            "description": "Phone number not registered"
+          },
+          "429": {
+            "description": "Request made too soon, cooldown period not finished"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/auth/forget-password": {
+      "post": {
+        "summary": "Request reset password code",
+        "description": "Sends a reset password code to the buyer's registered phone number. Enforces a cooldown period to prevent abuse.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "phone"
+                ],
+                "properties": {
+                  "phone": {
+                    "type": "string",
+                    "description": "The buyer's registered phone number",
+                    "example": "07701234567"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Reset password code sent successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "reset password code sent to your phone number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Phone number missing"
+          },
+          "404": {
+            "description": "Phone number not registered"
+          },
+          "429": {
+            "description": "Request made too soon, cooldown period not finished"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/auth/reset-password": {
+      "post": {
+        "summary": "Reset buyer password",
+        "description": "Allows a buyer to reset their password using a valid reset password code. Clears all existing sessions upon success.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "phone",
+                  "resetPasswordCode",
+                  "password"
+                ],
+                "properties": {
+                  "phone": {
+                    "type": "string",
+                    "description": "The buyer's registered phone number",
+                    "example": "07701234567"
+                  },
+                  "resetPasswordCode": {
+                    "type": "string",
+                    "description": "The reset password code sent to the buyer's phone",
+                    "example": "123456"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password",
+                    "description": "The new password to set (min 6 characters)",
+                    "example": "NewStrongPass123!"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password reset successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "password reseted successfuly. please login again"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing fields, invalid code, or expired reset code"
+          },
+          "409": {
+            "description": "New password is the same as previous password"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/api/buyer/location": {
       "post": {
         "summary": "Add a new user location",
@@ -2393,8 +2637,8 @@
             "required": true
           },
           {
-            "in": "header",
-            "name": "seller-id",
+            "in": "query",
+            "name": "sellerId",
             "schema": {
               "type": "string"
             },
@@ -2459,6 +2703,161 @@
                           "format": "date-time"
                         }
                       }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials"
+          },
+          "404": {
+            "description": "Admin or seller information not found!"
+          },
+          "500": {
+            "description": "Internal server error!"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update seller information",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The access token of the admin that starts with Bearer",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "sellerId",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The id of the seller that should be updated",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "phoneNo",
+                  "storeName",
+                  "location"
+                ],
+                "properties": {
+                  "phoneNo": {
+                    "type": "string",
+                    "description": "The phone number of the seller"
+                  },
+                  "storeName": {
+                    "type": "string",
+                    "description": "The name of the store"
+                  },
+                  "location": {
+                    "type": "object",
+                    "required": [
+                      "locationName",
+                      "longitude",
+                      "latitude"
+                    ],
+                    "properties": {
+                      "locationName": {
+                        "type": "string",
+                        "description": "The name of the store location"
+                      },
+                      "longitude": {
+                        "type": "string",
+                        "description": "The longitude coordinate of the store in the map"
+                      },
+                      "latitude": {
+                        "type": "string",
+                        "description": "The latitude coordinate of the store in the map"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Seller updated successfully!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Seller updated successfuly!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials"
+          },
+          "404": {
+            "description": "Admin or seller information not found!"
+          },
+          "500": {
+            "description": "Internal server error!"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deleting a seller",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The access token of the admin that starts with Bearer",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "sellerId",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The id of the seller that should be deleted",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Seller deleted successfully!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Seller deleted successfuly!"
                     }
                   }
                 }
